@@ -30,7 +30,7 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = False #local True
 
-#ALLOWED_HOSTS = [] #local []
+#ALLOWED_HOSTS = ['st1986.pythonanywhere.com'] #local []
 ALLOWED_HOSTS = ['localhost', '.pythonanywhere.com', 'st1986.pythonanywhere.com']
 
 # Application definition
@@ -135,3 +135,6 @@ try:
     from .local_settings import *
 except:
     pass
+MEDIA_URL = '/media/'
+STATIC_ROOT = Path(BASE_DIR / 'static')
+MEDIA_ROOT = Path(BASE_DIR / 'media')
