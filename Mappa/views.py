@@ -28,9 +28,10 @@ def select_template(request):
     # 利用可能な日付のリストを作成
     #available_dates = ['2023-08-15','2023-08-16','2023-08-17',]
 
-    result = glob.glob(r"C:\Users\Owner\Desktop\virtual\my_project\Mappa\templates\Mappa\202*.html")
+    #result = glob.glob(r"C:\Users\Owner\Desktop\virtual\my_project\Mappa\templates\Mappa\202*.html")
+    result = glob.glob("/home/st1986/st1986.pythonanywhere.com/Mappa/templates/Mappa/202*.html")
     def splitmap(x):
-        y = x.split('templates\\Mappa\\')[-1].split('.')[0]
+        y = x.split('templates/Mappa/')[-1].split('.')[0]
         return y
 
     available_dates = list(map(splitmap,result))
