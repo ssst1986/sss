@@ -60,6 +60,8 @@ def deal(path, year_range=(2023, 2024)):
    st.write("filtered columns:", filtered.columns.tolist())
    st.write("closed_year dtype:", filtered['closed_year'].dtype)
    st.write("closed_year head:", filtered['closed_year'].head())
+   st.write("filtered 件数:", len(filtered))
+   st.dataframe(filtered.head(10))
 
 
 
@@ -263,7 +265,7 @@ def main2(db_path):
 
     # 法人データ抽出（寿命情報付き）
     filtered = implementsql(db_path)
-    filtered = filtered.iloc[:10, :]  # サンプル制限
+    #filtered = filtered.iloc[:10, :]  # サンプル制限
     # st.write("現在のカラム一覧:", filtered.columns.tolist())
     # ジオコーディング（地理院API）
     for addr in filtered['full_address']:
