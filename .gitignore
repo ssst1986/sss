@@ -1,0 +1,20 @@
+# Pythonキャッシュ・一時ファイル
+__pycache__/
+*.py[cod]
+*.log
+
+# SQLiteデータベース（自動生成される）
+*.db
+*.sqlite3
+
+# Streamlitで生成される一時ファイル
+corp_map.html
+*.csv
+
+# VS Code関連
+.vscode/
+*.code-workspace
+
+# OSごとの不要ファイル
+.DS_Store
+Thumbs.db
