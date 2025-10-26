@@ -2,6 +2,7 @@ import streamlit as st
 import streamlit.components.v1 as components
 from map_logic import deal, normalize_address, geocode_gsi, show_map, implementsql,main2,makesqldb
 import time
+import os
 
 st.title("📍 廃業企業マップ")
 
@@ -16,6 +17,7 @@ if uploaded_file is not None:
         f.write(uploaded_file.getbuffer())
     try:
         makesqldb("houjin.csv")
+        st.write("houjin.db の存在:", os.path.exists("houjin.db"))
         st.success("CSVファイルをアップロードしました。地図を生成中…")
         main2("houjin.db")
     except Exception as e:
