@@ -23,15 +23,6 @@ def deal(path, year_range=(2023, 2024)):
    path = path
    df = pd.read_csv(path, encoding='cp932', header=None,dtype=str)
 
-   # 必要なカラム名を定義（項番に対応）
-   df.columns =  ["sequenceNumber","corporateNumber","process1","correct","updateDate",
-                  "changeDate","name","nameImageId","process2","prefectureName",
-                  "cityName","streetNumber","Address ImageId","prefectureCode",
-                  "cityCode","postCode","addressOutside","AddressOutside ImageId",
-                  "closeDate","closeCause","Successor CorporateNumber",
-                  "changeCause","assignmentDate","Latest(0:old.1:latest)",
-                  "enName","enPrefectureName","enCityName","enAddressOutside","furigana","hihyoji"
-                  ]
 
    #print(df['process_code'])
    # 処理区分コードの意味（参考）
