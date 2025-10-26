@@ -240,6 +240,8 @@ def implementsql(db_path):
 
     # 4. コメント生成（短命・長寿など）
     df["lifespan_comment"] = df["lifespan_days"].apply(classify_lifespan)
+
+    # 5. 寿命テキスト生成（すべて文字列化して安全に結合）
     df["lifespan_text"] = (
         "存続期間：" +
         df["lifespan_days"].astype(str) +
