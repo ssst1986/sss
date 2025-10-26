@@ -109,12 +109,9 @@ def geocode_gsi(address):
     return None, None
 
 def makesqldb(path):
-    
-    import pandas as pd
-
     df = pd.read_csv(path, encoding='cp932', header=None, dtype=str)
+    st.write("CSV読み込み行数:", len(df))
 
-    # カラム名を設定（項番に対応）
     df.columns = [
         "sequenceNumber", "corporateNumber", "process1", "correct", "updateDate",
         "changeDate", "name", "nameImageId", "process2", "prefectureName",
@@ -123,21 +120,18 @@ def makesqldb(path):
         "closeDate", "closeCause", "Successor CorporateNumber",
         "changeCause", "assignmentDate", "Latest(0:old.1:latest)",
         "enName", "enPrefectureName", "enCityName", "enAddressOutside", "furigana", "hihyoji"
-        ]
+    ]
 
-    # SQLiteに接続（なければ作成）
     conn = sqlite3.connect("houjin.db")
-
-    # テーブル名 'houjin' に保存（上書き）
     df.to_sql("houjin", conn, if_exists="replace", index=False)
-
-    # コミット＆クローズ（明示的に）
     conn.commit()
     conn.close()
 
     conn = sqlite3.connect("houjin.db")
-    print(pd.read_sql("SELECT COUNT(*) FROM houjin", conn))
+    count_df = pd.read_sql("SELECT COUNT(*) FROM houjin", conn)
+    st.write("DB登録件数:", count_df.iloc[0, 0])
     conn.close()
+
     return 
 
 def implementsql(db_path):
