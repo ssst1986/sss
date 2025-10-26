@@ -33,11 +33,11 @@ if uploaded_file is not None:
         latitudes.append(lat)
         longitudes.append(lon)
         time.sleep(1.1)
+        st.write("ジオコーディング結果:", lat, lon)
 
     df["lat"] = latitudes
     df["lon"] = longitudes
     df = df.dropna(subset=["lat", "lon"])
-    print(df.columns) 
 
     # 地図表示
     m = show_map(df)
