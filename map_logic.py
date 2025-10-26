@@ -286,7 +286,7 @@ def main2(db_path):
 
     # 地図描画に使う列だけ抽出
     geo_df = filtered[["corporateNumber", 'name', 'event', "changeDate", "closed_year",'full_address', 'lat', 'lon',"lifespan_years","lifespan_days"]]
-
+    st.write(geo_df)
     # 欠損を除外（緯度経度が取得できなかった行を除く）
     geo_df = geo_df.dropna(subset=['lat', 'lon'])
     m = show_map(geo_df)
