@@ -1,4 +1,0 @@
-db.sqlite3
-local_settings.py
-# 環境設定ファイル
-.env
