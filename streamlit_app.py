@@ -5,23 +5,22 @@ import time
 import os
 st.title("📍 廃業企業マップ")
 
-# CSVアップロード
+st.title("📍 廃業企業マップ")
+
+# スライダーは常に表示
+year_range = st.slider("廃業年の範囲を選択", 2015, 2025, (2023, 2024))
+
 uploaded_file = st.file_uploader("法人番号CSVをアップロード", type=["csv"])
 
 if uploaded_file is not None:
-    # ファイル保存
-    csv_path = "houjin.csv"
-    with open(csv_path, "wb") as f:
+    with open("houjin.csv", "wb") as f:
         f.write(uploaded_file.getbuffer())
-    st.success("CSVファイルを保存しました")
 
-    # DB作成 → 地図表示
     try:
-        db_path = "houjin.db"
-        makesqldb(csv_path)
-        if os.path.exists(db_path):
+        makesqldb("houjin.csv")
+        if os.path.exists("houjin.db"):
             st.success("CSVファイルをアップロードしました。地図を生成中…")
-            main2(db_path)
+            main2("houjin.db")
         else:
             st.error("DBファイルが見つかりません。CSVの読み込みに失敗している可能性があります。")
             st.stop()
