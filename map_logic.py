@@ -260,7 +260,7 @@ def main2(db_path):
     # 法人データ抽出（寿命情報付き）
     filtered = implementsql(db_path)
     filtered = filtered.iloc[:10, :]  # サンプル制限
-
+    st.write("現在のカラム一覧:", filtered.columns.tolist())
     # ジオコーディング（地理院API）
     for addr in filtered['full_address']:
         normalized = normalize_address(addr)
@@ -272,6 +272,7 @@ def main2(db_path):
     # 緯度・経度をDataFrameに追加
     filtered.loc[:, 'lat'] = latitudes
     filtered.loc[:, 'lon'] = longitudes
+
 
     # 地図描画に使う列だけ抽出
     geo_df = filtered[["corporateNumber", 'name', 'event', "changeDate", "closed_year",'full_address', 'lat', 'lon',"lifespan_years","lifespan_days"]]
