@@ -1,27 +1,47 @@
 import streamlit as st
-import os
-from map_logic import makesqldb, main2
+from map_logic import deal, normalize_address, geocode_gsi, show_map
+import time
 
-st.set_page_config(page_title="法人地図アプリ", layout="wide")
+st.title("📍 廃業企業マップ")
 
-st.title("🏢 法人地図ビジュアライザー")
-st.markdown("法人番号データを地図上に可視化するアプリです。")
+# 年範囲を選ぶスライダー
+year_range = st.slider("廃業年の範囲を選択", 2015, 2025, (2023, 2024))
 
-uploaded_file = st.file_uploader("法人番号CSVをアップロード（国税庁データ）", type=["csv"])
+# CSVアップロード
+uploaded_file = st.file_uploader("法人番号CSVをアップロード", type=["csv"])
 
 if uploaded_file is not None:
     with open("houjin.csv", "wb") as f:
         f.write(uploaded_file.getbuffer())
-    st.success("CSVを受け取りました。SQLiteに変換します…")
 
-    try:
-        if os.path.exists("houjin.db"):
-            os.remove("houjin.db")
-        makesqldb("houjin.csv")
-        st.success("変換完了！次に地図を表示します。")
-        with st.spinner("地図を生成中..."):
-            main2("houjin.db")
-    except Exception as e:
-        st.error(f"エラーが発生しました: {e}")
-else:
-    st.info("まずはCSVファイルをアップロードしてください。")
+    # deal() に年範囲を渡してフィルタ
+    df = deal("houjin.csv", year_range=year_range)
+
+    if df is None or df.empty:
+        st.warning("指定年に該当する廃業企業が見つかりませんでした")
+        st.stop()
+
+    df = df.iloc[:10, :]  # サンプル制限
+
+    # ジオコーディング
+    latitudes = []
+    longitudes = []
+    for addr in df["full_address"]:
+        norm = normalize_address(addr)
+        lat, lon = geocode_gsi(norm)
+        latitudes.append(lat)
+        longitudes.append(lon)
+        time.sleep(1.1)
+
+    df["lat"] = latitudes
+    df["lon"] = longitudes
+    df = df.dropna(subset=["lat", "lon"])
+
+    # 地図表示
+    m = show_map(df)
+    m.save("corp_map.html")
+    st.components.v1.html(m._repr_html_(), height=600)
+
+    # ダウンロードボタン
+    with open("corp_map.html", "rb") as f:
+        st.download_button("📥 地図をHTMLで保存", f, "corp_map.html", "text/html")
