@@ -1,0 +1,5 @@
+streamlit
+pandas
+folium
+requests
+sqlite3  # Python標準ライブラリなので不要
