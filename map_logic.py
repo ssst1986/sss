@@ -22,7 +22,8 @@ def deal(path, year_range=(2023, 2024)):
    # CSV読み込み（Shift-JIS版）
    path = path
    df = pd.read_csv(path, encoding='cp932', header=None,dtype=str)
-
+   st.write('1')
+   st.write(df)
 
    #print(df['process_code'])
    # 処理区分コードの意味（参考）
@@ -53,7 +54,7 @@ def deal(path, year_range=(2023, 2024)):
    target_codes = ['21']
    filtered = df[df['process1'].isin(target_codes)].copy()
    filtered['event'] = filtered['process1'].map(process_map)
-   
+   st.write('2')
    # 日付と年抽出
    filtered['changeDate'] = pd.to_datetime(filtered['changeDate'], errors='coerce')
    filtered['closed_year'] = filtered['changeDate'].dt.year
