@@ -1,5 +1,6 @@
 import streamlit as st
-from map_logic import deal, normalize_address, geocode_gsi, show_map
+import streamlit.components.v1 as components
+from map_logic import deal, normalize_address, geocode_gsi, show_map, implementsql,main2
 import time
 
 st.title("📍 廃業企業マップ")
@@ -14,36 +15,4 @@ if uploaded_file is not None:
     with open("houjin.csv", "wb") as f:
         f.write(uploaded_file.getbuffer())
 
-    # deal() に年範囲を渡してフィルタ
-    df = deal("houjin.csv", year_range=year_range)
-    df["lifespan_text"] = df["changeDate"].astype(str) + "〜" + df["closed_year"].astype(str)#kakunin
-
-    if df is None or df.empty:
-        st.warning("指定年に該当する廃業企業が見つかりませんでした")
-        st.stop()
-
-    df = df.iloc[:10, :]  # サンプル制限
-
-    # ジオコーディング
-    latitudes = []
-    longitudes = []
-    for addr in df["full_address"]:
-        norm = normalize_address(addr)
-        lat, lon = geocode_gsi(norm)
-        latitudes.append(lat)
-        longitudes.append(lon)
-        time.sleep(1.1)
-        st.write("ジオコーディング結果:", lat, lon)
-
-    df["lat"] = latitudes
-    df["lon"] = longitudes
-    df = df.dropna(subset=["lat", "lon"])
-
-    # 地図表示
-    m = show_map(df)
-    m.save("corp_map.html")
-    st.components.v1.html(m._repr_html_(), height=600)
-
-    # ダウンロードボタン
-    with open("corp_map.html", "rb") as f:
-        st.download_button("📥 地図をHTMLで保存", f, "corp_map.html", "text/html")
+    main2("houjin.db")
