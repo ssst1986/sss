@@ -16,7 +16,7 @@ if uploaded_file is not None:
 
     # deal() に年範囲を渡してフィルタ
     df = deal("houjin.csv", year_range=year_range)
-    st.write("データフレームの列一覧：", df.columns.tolist())#後で削除
+    df["lifespan_text"] = df["changeDate"].astype(str) + "〜" + df["closed_year"].astype(str)#kakunin
 
     if df is None or df.empty:
         st.warning("指定年に該当する廃業企業が見つかりませんでした")
