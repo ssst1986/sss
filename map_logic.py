@@ -183,8 +183,12 @@ def implementsql(db_path):
     """
 
 
-    df = pd.read_sql(query, conn)
-
+    #df = pd.read_sql(query, conn)
+    try:
+        df = pd.read_sql(query, conn)
+    except Exception as e:
+        st.error(f"SQL読み込みエラー: {e}")
+        st.stop()
     #print(df['process_code'])
     # 処理区分コードの意味（参考）
     process_map = {
