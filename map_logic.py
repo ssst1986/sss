@@ -11,7 +11,6 @@ import streamlit.components.v1 as components
 
 scope = ['https://www.googleapis.com/auth/spreadsheets', 'https://www.googleapis.com/auth/drive']
 # ジオコーダー初期化
-geolocator = Nominatim(user_agent="corp_locator")
 path = r"C:\Users\Owner\Desktop\00_zenkoku_all_20250930.csv"
 
 def normalize_address(addr):
