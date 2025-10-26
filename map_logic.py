@@ -266,7 +266,7 @@ def main2(db_path):
     longitudes = []
 
     # 法人データ抽出（寿命情報付き）
-    #filtered = implementsql(db_path)
+    filtered = implementsql(db_path)
     filtered = filtered.iloc[:50, :]  # サンプル制限
     # st.write("現在のカラム一覧:", filtered.columns.tolist())
     # ジオコーディング（地理院API）
