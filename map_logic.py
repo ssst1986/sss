@@ -269,6 +269,7 @@ def main2(db_path):
     #filtered = filtered.iloc[:10, :]  # サンプル制限
     # st.write("現在のカラム一覧:", filtered.columns.tolist())
     # ジオコーディング（地理院API）
+    st.write('案件の数は→'len(filtered['full_address']))
     for addr in filtered['full_address']:
         normalized = normalize_address(addr)
         lat, lon = geocode_gsi(normalized)
