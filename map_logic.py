@@ -171,8 +171,7 @@ def implementsql(db_path):
     query = f"""
     SELECT *
     FROM houjin
-    WHERE (lat IS NULL OR lon IS NULL)
-    AND prefectureCode = '{selected_codes["pref_code"]}'
+    WHERE prefectureCode = '{selected_codes["pref_code"]}'
     AND cityCode = '{selected_codes["city_code"]}'
     """
 
