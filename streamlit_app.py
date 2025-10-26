@@ -16,6 +16,7 @@ if uploaded_file is not None:
 
     # deal() に年範囲を渡してフィルタ
     df = deal("houjin.csv", year_range=year_range)
+    st.write("データフレームの列一覧：", df.columns.tolist())#後で削除
 
     if df is None or df.empty:
         st.warning("指定年に該当する廃業企業が見つかりませんでした")
@@ -36,6 +37,7 @@ if uploaded_file is not None:
     df["lat"] = latitudes
     df["lon"] = longitudes
     df = df.dropna(subset=["lat", "lon"])
+    print(df.columns) 
 
     # 地図表示
     m = show_map(df)
