@@ -200,9 +200,9 @@ def implementsql(db_path):
     }
 
     # 処理区分でフィルタ（設立・廃止・合併）
-    target_codes = ['21']
-    filtered = df[df['process1'].isin(target_codes)].copy()
-    filtered['event'] = filtered['process1'].map(process_map)
+    #filtered = df[df['process1'].isin(target_codes)].copy()
+    #filtered['event'] = filtered['process1'].map(process_map)
+    df['event'] = df['process1'].map(process_map)
 
     # 住所結合（都道府県＋市町村＋番地）
     df["full_address"] = (
