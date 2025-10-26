@@ -274,6 +274,7 @@ def main2(db_path):
         lat, lon = geocode_gsi(normalized)
         latitudes.append(lat)
         longitudes.append(lon)
+        st.write('処理中です')
         time.sleep(1.1)  # API制限対策
 
     # 緯度・経度をDataFrameに追加
