@@ -3,7 +3,6 @@ import streamlit.components.v1 as components
 from map_logic import deal, normalize_address, geocode_gsi, show_map, implementsql,main2,makesqldb
 import time
 import os
-st.title("📍 廃業企業マップ")
 
 st.title("📍 廃業企業マップ")
 
