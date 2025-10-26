@@ -220,6 +220,9 @@ def implementsql(db_path):
     df["assignmentDate"] = pd.to_datetime(df["assignmentDate"], errors="coerce")
     df["changeDate"] = pd.to_datetime(df["changeDate"], errors="coerce")
 
+    df1= pd.to_datetime(df['changeDate'], errors='coerce')
+    df['closed_year'] = df1.dt.year
+
     # コメント生成
     def classify_lifespan(days):
         if pd.isna(days):
