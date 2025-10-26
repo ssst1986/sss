@@ -242,9 +242,11 @@ def implementsql(db_path):
     df["lifespan_comment"] = df["lifespan_days"].apply(classify_lifespan)
     df["lifespan_text"] = (
         "存続期間：" +
-        df["lifespan_days"].astype(str) + "日（約" +
-        df["lifespan_years"].astype(str) + "年） " +
-        df["lifespan_comment"]
+        df["lifespan_days"].astype(str) +
+        "日（約" +
+        df["lifespan_years"].astype(str) +
+        "年） " +
+        df["lifespan_comment"].astype(str)
     )
 
     conn.close()
