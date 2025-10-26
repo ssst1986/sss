@@ -57,9 +57,10 @@ def deal(path, year_range=(2023, 2024)):
    # 日付と年抽出
    filtered['changeDate'] = pd.to_datetime(filtered['changeDate'], errors='coerce')
    filtered['closed_year'] = filtered['changeDate'].dt.year
-   print("filtered columns:", filtered.columns.tolist())
-   print("closed_year dtype:", filtered.get('closed_year', 'missing'))
-   print("closed_year head:", filtered['closed_year'].head())
+   st.write("filtered columns:", filtered.columns.tolist())
+   st.write("closed_year dtype:", filtered['closed_year'].dtype)
+   st.write("closed_year head:", filtered['closed_year'].head())
+
 
 
    # 住所結合（郵便番号付き）
