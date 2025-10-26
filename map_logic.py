@@ -56,7 +56,7 @@ def deal(path, year_range=(2023, 2024)):
    filtered['event'] = filtered['process1'].map(process_map)
    st.write('2')
    # 日付と年抽出
-   filtered['changeDate'] = pd.to_datetime(filtered['changeDate'], errors='coerce')
+   filtered['changeDate'] = pd.to_datetime(df['changeDate'], errors='coerce')
    filtered['closed_year'] = filtered['changeDate'].dt.year
    st.write("filtered columns:", filtered.columns.tolist())
    st.write("closed_year dtype:", filtered['closed_year'].dtype)
