@@ -280,6 +280,7 @@ def main2(db_path):
     # 緯度・経度をDataFrameに追加
     filtered.loc[:, 'lat'] = latitudes
     filtered.loc[:, 'lon'] = longitudes
+    st.write(filtered)
 
 
     # 地図描画に使う列だけ抽出
