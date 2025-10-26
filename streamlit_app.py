@@ -4,7 +4,7 @@ from map_logic import deal, normalize_address, geocode_gsi, show_map, implements
 import time
 import os
 
-st.title("📍 廃業企業マップ")
+st.title("廃業企業ビジュアライザー")
 
 # スライダーは常に表示
 year_range = st.slider("廃業年の範囲を選択", 2015, 2025, (2023, 2024))
