@@ -280,19 +280,37 @@ def main2(db_path):
         #st.write('処理中です')
         time.sleep(1.1)  # API制限対策
 
-    # 緯度・経度をDataFrameに追加
-    filtered.loc[:, 'lat'] = latitudes
-    filtered.loc[:, 'lon'] = longitudes
+     # 緯度・経度を DataFrame に追加
+    filtered['lat'] = pd.to_numeric(latitudes, errors='coerce')
+    filtered['lon'] = pd.to_numeric(longitudes, errors='coerce')
+
+    # 欠損除去（NaNがあるとfoliumがエラーになる）
+    filtered = filtered.dropna(subset=['lat', 'lon'])
 
     # 地図描画に使う列だけ抽出
-    geo_df = filtered[["corporateNumber", 'name', 'event', "changeDate", "closed_year",'full_address', 'lat', 'lon',"lifespan_years","lifespan_days"]]
-    st.write(geo_df)
-    # 欠損を除外（緯度経度が取得できなかった行を除く）
-    geo_df = geo_df.dropna(subset=['lat', 'lon'])
-    m = show_map(geo_df)
-    m.save("corp_map.html")  # HTMLとして一時保存
+    geo_df = filtered[[
+        "corporateNumber", "name", "event", "changeDate", "closed_year",
+        "full_address", "lat", "lon", "lifespan_years", "lifespan_days"
+    ]]
+
+    # 地図中心座標を計算
+    center_lat = geo_df["lat"].mean()
+    center_lon = geo_df["lon"].mean()
+
+    # folium 地図生成
+    m = folium.Map(location=[center_lat, center_lon], zoom_start=10)
+
+    for _, row in geo_df.iterrows():
+        folium.Marker(
+            location=[row["lat"], row["lon"]],
+            popup=f"{row['name']}<br>{row['lifespan_years']}年（{row['lifespan_days']}日）",
+            tooltip=row["full_address"]
+        ).add_to(m)
+
+    # 地図表示とダウンロード
+    m.save("corp_map.html")
     components.html(m._repr_html_(), height=600)
-    # ダウンロードリンク表示
+
     with open("corp_map.html", "rb") as f:
         st.download_button(
             label="📥 地図をHTMLで保存",
@@ -301,5 +319,6 @@ def main2(db_path):
             mime="text/html"
         )
 
-    return 
+    return
+
 
