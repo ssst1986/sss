@@ -57,14 +57,17 @@ def deal(path, year_range=(2023, 2024)):
    # 日付と年抽出
    filtered['changeDate'] = pd.to_datetime(filtered['changeDate'], errors='coerce')
    filtered['closed_year'] = filtered['changeDate'].dt.year
+   print("filtered columns:", filtered.columns.tolist())
+   print("closed_year dtype:", filtered.get('closed_year', 'missing'))
+   print("closed_year head:", filtered['closed_year'].head())
+
 
    # 住所結合（郵便番号付き）
    filtered['full_address'] =filtered['prefectureName'].fillna('') + \
                             filtered['cityName'].fillna('') + \
                             filtered['streetNumber'].fillna('')
                              
-   result = filtered[[
-      "corporateNumber", 'name', 'event', "changeDate", "closed_year",'full_address',]]
+   result = filtered[["corporateNumber", 'name', 'event', "changeDate", "closed_year",'full_address',]]
    result = result[(result['closed_year'] >= year_range[0]) &(result['closed_year'] <= year_range[1])]
    if result.empty:
     print("⚠️ 指定期間に該当する廃業企業が見つかりませんでした")
@@ -260,7 +263,7 @@ def main2(db_path):
     # 法人データ抽出（寿命情報付き）
     filtered = implementsql(db_path)
     filtered = filtered.iloc[:10, :]  # サンプル制限
-    st.write("現在のカラム一覧:", filtered.columns.tolist())
+    # st.write("現在のカラム一覧:", filtered.columns.tolist())
     # ジオコーディング（地理院API）
     for addr in filtered['full_address']:
         normalized = normalize_address(addr)
