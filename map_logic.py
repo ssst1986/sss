@@ -58,13 +58,7 @@ def deal(path, year_range=(2023, 2024)):
    # 日付と年抽出
    filtered['changeDate'] = pd.to_datetime(df['changeDate'], errors='coerce')
    filtered['closed_year'] = filtered['changeDate'].dt.year
-   st.write("filtered columns:", filtered.columns.tolist())
-   st.write("closed_year dtype:", filtered['closed_year'].dtype)
-   st.write("closed_year head:", filtered['closed_year'].head())
-   st.write("filtered 件数:", len(filtered))
-   st.dataframe(filtered.head(10))
-
-
+ 
 
    # 住所結合（郵便番号付き）
    filtered['full_address'] =filtered['prefectureName'].fillna('') + \
@@ -276,7 +270,6 @@ def main2(db_path):
     #filtered = filtered.iloc[:10, :]  # サンプル制限
     # st.write("現在のカラム一覧:", filtered.columns.tolist())
     # ジオコーディング（地理院API）
-    st.write(filtered.dtypes)
     for addr in filtered['full_address']:
         normalized = normalize_address(addr)
         lat, lon = geocode_gsi(normalized)
@@ -290,8 +283,6 @@ def main2(db_path):
     # 緯度・経度をDataFrameに追加
     filtered.loc[:, 'lat'] = latitudes
     filtered.loc[:, 'lon'] = longitudes
-    st.write(filtered)
-
 
     # 地図描画に使う列だけ抽出
     geo_df = filtered[["corporateNumber", 'name', 'event', "changeDate", "closed_year",'full_address', 'lat', 'lon',"lifespan_years","lifespan_days"]]
